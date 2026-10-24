@@ -1,0 +1,31 @@
+-- Enterprise Schema for AI MCP Tool Exploration
+
+CREATE TABLE IF NOT EXISTS departments (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL UNIQUE,
+    code VARCHAR(10) NOT NULL UNIQUE,
+    budget DECIMAL(15,2) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS employees (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    first_name VARCHAR(50) NOT NULL,
+    last_name VARCHAR(50) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    role VARCHAR(50) NOT NULL,
+    salary DECIMAL(10,2) NOT NULL,
+    department_id BIGINT,
+    is_active BOOLEAN DEFAULT TRUE,
+    hired_date DATE NOT NULL,
+    CONSTRAINT fk_dept FOREIGN KEY (department_id) REFERENCES departments(id)
+);
+
+CREATE TABLE IF NOT EXISTS audit_logs (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    action VARCHAR(100) NOT NULL,
+    actor VARCHAR(100) NOT NULL,
+    details VARCHAR(500),
+    severity VARCHAR(20) DEFAULT 'INFO',
+    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
